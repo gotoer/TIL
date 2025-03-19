@@ -58,7 +58,7 @@ fatal: unable to access 'https://github.com/gotoer/TIL.git/': The requested URL 
 
 cache 명령어를 통해 조금 더 안전하게 관리할 수는 있습니다.
 
-3. SSH 키 사용
+3. SSH KEY 사용
    보안 측면에서 가장 우수하고 가장 권장하는 방식입니다.
    사용하기 위한 절차가 많다는 단점이 있습니다.
 
@@ -97,5 +97,10 @@ ssh -T git@github.com
 ### 결론
 
 ===
+SSH KEY 사용하는 방법을 선택했고 원격 URL을 SSH 방식으로 변경하여 마무리 했습니다.
+`git remote set-url origin git@github.com:gotoer/TIL.git`
+
+`git remote -v` 명령어로 변경된 SSH URL까지 확인했습니다.
+
 SSH KEY를 활용하는 것이 가장 안전하지만 위 방법 외에도 GIT_ASKPASS 환경 변수를 활용하는 등 다양한 방법이 존재합니다.
 어찌됐든 대부분이 CLI를 통해 이뤄지기 때문에 linux에 대해 깊이있게 학습해야 하는 것을 느끼게 되었습니다.
