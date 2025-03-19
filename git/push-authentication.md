@@ -2,7 +2,6 @@
 
 ### Push?
 
-===
 git push는 로컬 브랜치(local branch)를 원격 저장소(remote repository)로 푸시할 때 사용하는 기본 명령어입니다.
 
 명령어는 아래와 같습니다.
@@ -13,7 +12,6 @@ git push는 로컬 브랜치(local branch)를 원격 저장소(remote repository
 
 ### Push 권한 에러
 
-===
 git clone으로 작업할 repository를 가져와서 코드 혹은 문서 작업을 완료하고 앞서 설명한 명령어를 통해 push를 한다고 해서 push가 가능한 것은 아닙니다.
 
 코드 작성 후 commit하고 push를 해보면 다음과 같은 에러를 보게됩니다.
@@ -27,7 +25,6 @@ fatal: unable to access 'https://github.com/gotoer/TIL.git/': The requested URL 
 
 ### 해결 방법
 
-===
 원격저장소에 접근할 권한을 갖고 있어야하며, 권한을 부여받기 위해 github에서 personal-access-token을 발급받아야 합니다.
 
 1. github 페이지에서 우측 상단 이미지 클릭 후 하단 Settings를 클릭
@@ -37,7 +34,6 @@ fatal: unable to access 'https://github.com/gotoer/TIL.git/': The requested URL 
 
 ### Access-Token 사용 방법
 
-===
 발급받은 토큰을 사용하는 방법은 여러가지가 있습니다.
 
 1. 명령어에 직접 토큰을 입력
@@ -96,7 +92,6 @@ ssh -T git@github.com
 
 ### 결론
 
-===
 SSH KEY 사용하는 방법을 선택했고 원격 URL을 SSH 방식으로 변경하여 마무리 했습니다.
 `git remote set-url origin git@github.com:gotoer/TIL.git`
 
