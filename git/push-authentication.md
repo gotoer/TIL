@@ -47,7 +47,7 @@ fatal: unable to access 'https://github.com/gotoer/TIL.git/': The requested URL 
 
 <br>
 
-1. 명령어에 직접 토큰을 입력
+1. 명령어에 직접 토큰을 입력  
    : git clone 시 발급받은 personal-access-token을 명령어에 붙이는 방법입니다.
 
 `git clone https://{PERSONAL_ACCESS_TOKEN}@github.com/gotoer/TIL.git`
@@ -56,7 +56,7 @@ fatal: unable to access 'https://github.com/gotoer/TIL.git/': The requested URL 
 
 <br>
 
-2. Git Credential Store 사용
+2. Git Credential Store 사용  
    : git 자격 증명을 저장하여 매번 입력할 필요 없이 자동으로 인증하는 방법입니다.
 
 `git config --global credential.helper store`
@@ -69,13 +69,13 @@ cache 명령어를 통해 조금 더 안전하게 관리할 수는 있습니다.
 
 <br>
 
-3. SSH KEY 사용
-   보안 측면에서 가장 우수하고 가장 권장하는 방식입니다.
+3. SSH KEY 사용  
+  : 보안 측면에서 가장 우수하고 가장 권장하는 방식입니다.
    사용하기 위한 절차가 많다는 단점이 있습니다.
 
 <br>
 
-- SSH 키 생성
+- SSH 키 생성  
   : 사용하는 이메일을 입력하면 패스프레이즈를 입력할 수 있고 선택사항입니다. 패스프레이즈를 입력하면 보안이 더 강력해집니다.
 
 ```
@@ -89,7 +89,7 @@ eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
 ```
 
-- 공개 키 등록 (GitHub에 추가)
+- 공개 키 등록 (GitHub에 추가)  
   : 아래 명령어를 입력하면 SSH key가 출력됩니다.
   출력된 키를 `GitHub 웹사이트 → Settings → SSH and GPG keys → New SSH key → 공개 키 붙여넣기 → 저장` 절차를 통해 저장합니다.
 
@@ -97,7 +97,7 @@ ssh-add ~/.ssh/id_rsa
 cat ~/.ssh/id_rsa.pub
 ```
 
-- SSH 연결 테스트
+- SSH 연결 테스트  
   : 아래 명령어를 입력했을 때 `Hi <your-username>! You've successfully authenticated` 메시지가 나오면 성공입니다.
 
 ```
