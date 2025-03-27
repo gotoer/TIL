@@ -39,18 +39,17 @@
 
 <br>
 
-2. 도커 주요 명령어  
-| 명령어 | 설명 |
-|--------|------|
-| `docker pull <이미지>` | 도커 허브에서 컨테이너 이미지를 다운로드 |
-| `docker push <이미지>` | 도커 허브에 컨테이너 이미지를 업로드 |
-| `docker run <이미지>` | 컨테이너 실행 |
-| `docker ps` | 실행 중인 컨테이너 목록 조회 |
-| `docker stop <컨테이너 ID>` | 실행 중인 컨테이너 중지 |
-| `docker rm <컨테이너 ID>` | 컨테이너 삭제 |
-| `docker images` | 로컬에 저장된 이미지 목록 조회 |
-| `docker rmi <이미지 ID>` | 이미지 삭제 |
-| `docker exec -it <컨테이너 ID> bash` | 실행 중인 컨테이너 내부에 접속 |
+2. 도커 주요 명령어
+
+ `docker pull <이미지>`: 도커 허브에서 컨테이너 이미지를 다운로드  
+ `docker push <이미지>`: 도커 허브에 컨테이너 이미지를 업로드  
+ `docker run <이미지>`: 컨테이너 실행  
+ `docker ps`: 실행 중인 컨테이너 목록 조회  
+ `docker stop <컨테이너 ID>`: 실행 중인 컨테이너 중지  
+ `docker rm <컨테이너 ID>`: 컨테이너 삭제  
+ `docker images`: 로컬에 저장된 이미지 목록 조회  
+ `docker rmi <이미지 ID>`: 이미지 삭제  
+ `docker exec -it <컨테이너 ID> bash`: 실행 중인 컨테이너 내부에 접속  
 
 <br>
 
