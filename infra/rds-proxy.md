@@ -55,6 +55,9 @@ Amazon RDS Proxy는 **Amazon RDS(Aurora 포함)**를 위한 관리형 데이터�
 
 RDS Proxy는 **데이터베이스 연결 풀링(connection pooling)**을 제공하여, 많은 수의 짧은 연결이 발생하는 애플리케이션에서도 데이터베이스 부하를 줄이고 효율적으로 관리할 수 있도록 합니다.
 
+<br>
+<br>
+
 ## RDS Proxy 주요 기능
 
 - Connection Pooling (연결 풀링)
@@ -85,3 +88,109 @@ RDS Proxy는 **데이터베이스 연결 풀링(connection pooling)**을 제공�
 - 자동 확장 및 성능 최적화  
   - 다중 데이터베이스 연결을 효과적으로 관리하여, 연결이 급격히 증가해도 성능 저하 없이 대응할 수 있습니다.  
   - 연결을 유지하는 동안 비활성 연결을 자동으로 종료하여 불필요한 리소스 사용을 줄입니다.
+
+<br>
+<br>
+
+## RDS Proxy 설정 방법
+
+- RDS Proxy 활성화
+    1. AWS 콘솔에서 RDS > Proxies > "Create Proxy" 선택
+    2. Proxy 이름, VPC 및 서브넷 설정
+    3. 연결할 RDS 인스턴스 선택
+    4. 인증 옵션 (IAM 인증 또는 RDS 자격 증명) 설정
+
+<br>
+
+- 애플리케이션에서 RDS Proxy 사용
+  - 기존의 RDS 엔드포인트 대신 RDS Proxy 엔드포인트를 사용하여 연결
+  - (예시) pg-pool을 사용한 연결 풀링  
+    : RDS Proxy는 내부적으로 **연결 풀링(Connection Pooling)**을 제공하지만, 애플리케이션에서도 풀링을 활용하면 더욱 최적화할 수 있습니다.  
+  
+  ```typescript
+    import { Pool } from 'pg';
+
+    // PostgreSQL 연결 풀 생성
+    const pool = new Pool({
+    host: 'my-rds-proxy.proxy-xxxxxx.region.rds.amazonaws.com',
+    port: 5432,
+    user: 'admin',
+    password: 'mypassword',
+    database: 'mydatabase',
+    max: 10, // 최대 동시 연결 수
+    idleTimeoutMillis: 30000, // 30초 동안 유휴 상태이면 연결 해제
+    connectionTimeoutMillis: 5000, // 연결 제한 시간 5초
+    });
+
+    (async () => {
+    try {
+        const client = await pool.connect();
+        console.log('✅ Connected to PostgreSQL via RDS Proxy');
+
+        const res = await client.query('SELECT NOW() AS current_time');
+        console.log('🕒 Current Time:', res.rows[0]);
+
+        client.release(); // 풀에 연결 반환
+    } catch (err) {
+        console.error('❌ Database error:', err);
+    }
+    })();
+  ```
+
+  - IAM 인증 방식 사용 (선택)
+    - AWS IAM 인증을 사용할 경우, 데이터베이스의 패스워드 대신 IAM 인증 토큰을 생성해야 합니다.
+    - IAM 인증을 사용하면 보안이 강화됩니다.
+
+    1. IAM 인증 토큰 생성  
+
+    ```bash
+    aws rds generate-db-auth-token \
+    --hostname my-rds-proxy.proxy-xxxxxx.region.rds.amazonaws.com \
+    --port 5432 \
+    --region ap-northeast-2 \
+    --username admin
+    ```
+
+    2. Node.js 코드에서 IAM 인증 적용  
+    : 위 예시에 적용하면 아래와 같습니다.
+
+    ```typescript
+    // AWS CLI로 IAM 인증 토큰 생성
+    const token = execSync(`aws rds generate-db-auth-token --hostname ${host} --port 5432 --region ap-northeast-2 --username ${username}`)
+    .toString().trim();
+
+    const pool = new Pool({
+    host: 'my-rds-proxy.proxy-xxxxxx.region.rds.amazonaws.com',
+    port: 5432,
+    user: 'admin',
+    password: token, // IAM 인증 토큰 사용
+    database: 'mydatabase',
+    max: 10, 
+    idleTimeoutMillis: 30000, 
+    connectionTimeoutMillis: 5000, 
+    });
+    ```
+
+<br>
+<br>
+
+## RDS Proxy 사용 사례
+
+- 서버리스 애플리케이션 (Lambda, Fargate)
+  - AWS Lambda 또는 AWS Fargate와 같은 서버리스 환경에서는 데이터베이스 연결이 빠르게 증가하고 감소합니다.
+  - RDS Proxy는 이러한 연결을 효과적으로 관리하여 Cold Start 문제를 줄이고 데이터베이스 부담을 최소화합니다.  
+
+<br>
+
+- 고트래픽 웹 애플리케이션
+  - 대규모 웹 애플리케이션에서 다수의 사용자가 동시 접속할 때, RDS Proxy를 활용하면 연결 관리 및 부하 분산을 최적화할 수 있습니다.  
+
+<br>
+
+- 마이크로서비스 아키텍처
+  - 여러 마이크로서비스가 동일한 RDS 인스턴스를 사용할 때, RDS Proxy를 통해 효율적인 연결 관리 및 성능 향상이 가능합니다.
+
+<br>
+
+- 읽기/쓰기 분리가 필요한 경우
+  - Aurora 클러스터의 Read Replica를 활용하여, 읽기 요청을 자동으로 분배하여 읽기 성능을 향상시킬 수 있습니다.
