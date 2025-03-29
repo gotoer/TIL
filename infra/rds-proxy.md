@@ -137,11 +137,11 @@ RDS Proxy는 **데이터베이스 연결 풀링(connection pooling)**을 제공�
     })();
   ```
 
-  - IAM 인증 방식 사용 (선택)
-    - AWS IAM 인증을 사용할 경우, 데이터베이스의 패스워드 대신 IAM 인증 토큰을 생성해야 합니다.
-    - IAM 인증을 사용하면 보안이 강화됩니다.
+- IAM 인증 방식 사용 (선택)
+  - AWS IAM 인증을 사용할 경우, 데이터베이스의 패스워드 대신 IAM 인증 토큰을 생성해야 합니다.
+  - IAM 인증을 사용하면 보안이 강화됩니다.
 
-    1. IAM 인증 토큰 생성  
+  1. IAM 인증 토큰 생성  
 
     ```bash
     aws rds generate-db-auth-token \
@@ -151,7 +151,7 @@ RDS Proxy는 **데이터베이스 연결 풀링(connection pooling)**을 제공�
     --username admin
     ```
 
-    2. Node.js 코드에서 IAM 인증 적용  
+  2. Node.js 코드에서 IAM 인증 적용  
     : 위 예시에 적용하면 아래와 같습니다.
 
     ```typescript
